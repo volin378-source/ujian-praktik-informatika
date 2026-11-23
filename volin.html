@@ -1,3 +1,281 @@
-volin
-12-2
-kejar 2
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Dasbor Sederhana</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: #f4f4f9;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    /* --- STYLE LOGIN --- */
+    .login-box {
+      background: #ffffff;
+      padding: 28px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 340px;
+    }
+    .login-box h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #555;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .show-pass {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 13px;
+      color: #555;
+      cursor: pointer;
+    }
+    .show-pass input {
+      width: auto;
+      margin: 0;
+    }
+    .btn-login {
+      width: 100%;
+      padding: 10px;
+      background-color: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .btn-login:hover {
+      background-color: #1d4ed8;
+    }
+    #pesan {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+
+    /* --- STYLE DASBOR --- */
+    .dashboard-container {
+      display: none; /* Disembunyikan sebelum login */
+      width: 100%;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .navbar {
+      background-color: #1e293b;
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .btn-logout {
+      background-color: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn-logout:hover {
+      background-color: #dc2626;
+    }
+    .dashboard-content {
+      padding: 24px;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .welcome-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .stat-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .stat-card h4 {
+      margin: 0 0 8px 0;
+      color: #64748b;
+      font-size: 14px;
+    }
+    .stat-card p {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- HALAMAN LOGIN -->
+  <div class="login-box" id="loginSection">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Masukkan: admin" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Masukkan: 12345" required>
+        <label class="show-pass">
+          <input type="checkbox" id="togglePassword"> Tampilkan password
+        </label>
+      </div>
+      <button type="submit" class="btn-login">Masuk</button>
+      <p id="pesan"></p>
+    </form>
+  </div>
+
+
+  <!-- HALAMAN DASBOR -->
+  <div class="dashboard-container" id="dashboardSection">
+    <nav class="navbar">
+      <h3>Dasbor Aplikasi</h3>
+      <button class="btn-logout" id="logoutBtn">Keluar</button>
+    </nav>
+
+
+    <main class="dashboard-content">
+      <div class="welcome-card">
+        <h2>Selamat datang, <span id="userDisplay">Admin</span>!</h2>
+        <p>Anda berhasil masuk ke halaman utama dasbor.</p>
+      </div>
+
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h4>Total Pengguna</h4>
+          <p>128</p>
+        </div>
+        <div class="stat-card">
+          <h4>Pesanan Hari Ini</h4>
+          <p>24</p>
+        </div>
+        <div class="stat-card">
+          <h4>Pendapatan</h4>
+          <p>Rp 3.450.000</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
+  <script>
+    const loginSection = document.getElementById("loginSection");
+    const dashboardSection = document.getElementById("dashboardSection");
+    const loginForm = document.getElementById("loginForm");
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+    const pesan = document.getElementById("pesan");
+    const userDisplay = document.getElementById("userDisplay");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+
+    // Fungsi untuk menampilkan dasbor
+    function tampilkanDasbor(username) {
+      loginSection.style.display = "none";
+      dashboardSection.style.display = "flex";
+      userDisplay.textContent = username;
+    }
+
+
+    // Fungsi untuk kembali ke login
+    function tampilkanLogin() {
+      dashboardSection.style.display = "none";
+      loginSection.style.display = "block";
+      loginForm.reset();
+      pesan.textContent = "";
+    }
+
+
+    // Cek apakah user sudah login sebelumnya saat halaman dibuka/di-refresh
+    const savedUser = localStorage.getItem("loggedInUser");
+    if (savedUser) {
+      tampilkanDasbor(savedUser);
+    }
+
+
+    // Toggle tampilkan/sembunyikan password
+    togglePassword.addEventListener("change", function () {
+      passwordInput.type = this.checked ? "text" : "password";
+    });
+
+
+    // Proses Login
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+
+      const username = document.getElementById("username").value.trim();
+      const password = passwordInput.value;
+
+
+      if (username === "admin" && password === "12345") {
+        localStorage.setItem("loggedInUser", username);
+        tampilkanDasbor(username);
+      } else {
+        pesan.style.color = "red";
+        pesan.textContent = "Username atau password salah!";
+      }
+    });
+
+
+    // Proses Logout
+    logoutBtn.addEventListener("click", function () {
+      localStorage.removeItem("loggedInUser");
+      tampilkanLogin();
+    });
+  </script>
+
+
+</body>
+</html>
